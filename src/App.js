@@ -11,36 +11,36 @@ const App = () => {
    let [userInput, setUserInput] = useState("");
 
    const appendPrevious = (e) => {
+      if (userInput.charAt(0) === "0" && e.target.value === "0") return;
+      if (userInput.length === 18) setDisabled(true);
+
       setUserInput((userInput += e.target.value));
       setOperationSelected(false);
-
-      if (userInput.length === 11) {
-         setDisabled(true);
-      }
    };
 
    const handleOperation = (e) => {
       let previous = userInput.slice();
       setOperationSelected(true);
+      setDisabled(false);
 
       if (previousValue && !evaluated) {
-         let updatedTotal = eval(`${expression} ${userInput}`);
+         let updatedTotal = eval(`${expression.replace(",", "")} ${userInput}`);
 
          setPreviousValue(previous);
-         setExpression(`${updatedTotal} ${e.target.value}`);
+         setExpression(`${formatVal(updatedTotal)} ${e.target.value}`);
          setTotal(updatedTotal);
          setUserInput("");
          return;
       }
 
       if (previousValue && evaluated) {
-         setExpression(`${total} ${e.target.value}`);
+         setExpression(`${formatVal(total)} ${e.target.value}`);
          setEvaluated(false);
          setDisabled(false);
          return;
       }
 
-      let currentExpression = `${previous} ${e.target.value}`;
+      let currentExpression = `${formatVal(previous)} ${e.target.value}`;
 
       setExpression(currentExpression);
       setPreviousValue(previous);
@@ -55,11 +55,13 @@ const App = () => {
       setExpression("");
       setEvaluated(false);
       setDisabled(false);
+      setOperationSelected(false);
    };
 
    const calculateTotal = () => {
       let previous = userInput.slice();
-      let calculatedTotal = eval(`${expression} ${previous}`);
+      let calculatedTotal = eval(`${expression.replace(",", "")} ${previous}`);
+      // calculatedTotal
 
       setTotal(calculatedTotal);
       setPreviousValue(calculatedTotal);
@@ -71,6 +73,8 @@ const App = () => {
    };
 
    const reverseSign = () => {
+      if (!userInput.length) return;
+
       let userInputValue = parseInt(userInput);
 
       if (evaluated) {
@@ -98,6 +102,8 @@ const App = () => {
    };
 
    const convertDec = () => {
+      if (!userInput.length) return;
+
       if (evaluated) {
          setTotal(total / 100);
          return;
@@ -114,11 +120,18 @@ const App = () => {
    };
 
    return (
-      <div className="calculator">
+      <main className="calculator">
          <div className="calculator__container">
             <div className="calculator__output">
                <span className="calculator__input">{expression}</span>
-               <span className="calculator__total">
+               <span
+                  className={`calculator__total ${
+                     userInput.length >= 10 ||
+                     (evaluated && total.toString().length >= 10)
+                        ? "calculator__total--shrink"
+                        : ""
+                  }`}
+               >
                   {expression || userInput
                      ? !userInput
                         ? 0
@@ -149,7 +162,9 @@ const App = () => {
                   className="calculator__option calculator__option--operation"
                   value="/"
                   onClick={(e) => handleOperation(e)}
-                  disabled={operationSelected}
+                  disabled={
+                     operationSelected || (!userInput.length && !evaluated)
+                  }
                >
                   ÷
                </button>
@@ -181,7 +196,9 @@ const App = () => {
                   className="calculator__option calculator__option--operation"
                   value="*"
                   onClick={(e) => handleOperation(e)}
-                  disabled={operationSelected}
+                  disabled={
+                     operationSelected || (!userInput.length && !evaluated)
+                  }
                >
                   ×
                </button>
@@ -213,7 +230,9 @@ const App = () => {
                   className="calculator__option calculator__option--operation"
                   value="-"
                   onClick={(e) => handleOperation(e)}
-                  disabled={operationSelected}
+                  disabled={
+                     operationSelected || (!userInput.length && !evaluated)
+                  }
                >
                   -
                </button>
@@ -245,7 +264,9 @@ const App = () => {
                   className="calculator__option calculator__option--operation"
                   value="+"
                   onClick={(e) => handleOperation(e)}
-                  disabled={operationSelected}
+                  disabled={
+                     operationSelected || (!userInput.length && !evaluated)
+                  }
                >
                   +
                </button>
@@ -269,13 +290,13 @@ const App = () => {
                <button
                   className="calculator__option calculator__option--operation"
                   onClick={calculateTotal}
-                  disabled={!userInput}
+                  disabled={!userInput.length}
                >
                   =
                </button>
             </div>
          </div>
-      </div>
+      </main>
    );
 };
 

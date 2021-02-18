@@ -1,6 +1,7 @@
-$primary-background: #000022;
-$secondary-background: #001242;
-$primary: #0094c6;
+$primary-background: #4cab86;
+$secondary-background: #42b883b8;
+$primary: #ade5cc;
+$accent-one: #0c1025;
 
 .calculator {
    min-height: 100vh;
@@ -10,39 +11,41 @@ $primary: #0094c6;
    align-items: center;
 
    &__container {
-      background: $secondary-background;
+      background: $accent-one;
       width: 300px;
       height: 500px;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
          0 4px 6px -2px rgba(0, 0, 0, 0.05);
       display: flex;
       flex-direction: column;
-      border-radius: 0.5rem;
    }
 
    &__output {
-      background-color: $secondary-background;
+      background-color: $accent-one;
       padding: 1.25rem;
-      border-bottom: 5px solid $primary;
+      border-bottom: 4px solid #42b883;
       text-align: right;
-      border-top-left-radius: 0.5rem;
-      border-top-right-radius: 0.5rem;
       display: flex;
       flex-direction: column;
+      min-height: 60px;
    }
 
    &__input {
-      color: #99e6ff;
+      color: #b1ffe3;
       font-size: 0.8rem;
       font-weight: 600;
       min-height: 12px;
    }
 
    &__total {
-      font-weight: 600;
+      font-weight: 500;
       color: $primary;
       font-size: 2.75rem;
       margin-top: 0.75rem;
+
+      &--shrink {
+         font-size: 1.25rem;
+      }
    }
 
    &__options {
@@ -50,33 +53,35 @@ $primary: #0094c6;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       grid-template-rows: repeat(5, minmax(0, 1fr));
       grid-gap: 0.75rem;
-      background-color: #040f16;
+      background-color: $accent-one;
       height: -webkit-fill-available;
       height: stretch;
       padding: 1.75rem 1.25rem;
-      border-bottom-left-radius: 0.5rem;
-      border-bottom-right-radius: 0.5rem;
    }
 
    &__option {
       display: flex;
       justify-content: center;
       align-items: center;
-      color: $primary;
+      color: #42b883;
       border: none;
       border-radius: 50%;
       cursor: pointer;
       font-size: 1.75rem;
-      font-family: "Nunito", sans-serif;
       background: transparent;
       transition: 0.2s all;
+      font-weight: 500;
+      width: 50px;
+      height: 50px;
 
       &--operation {
          background: $secondary-background;
+         color: $primary;
       }
 
       &:hover {
-         background: #001b66;
+         background: #42b883ed;
+         color: #c2ffe9;
       }
    }
 }
