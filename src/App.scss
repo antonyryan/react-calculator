@@ -4,7 +4,7 @@ $highlight-text: #b1ffe3;
 
 .calculator {
    min-height: 100vh;
-   background-color: #4cab86;
+   background-color: #4ec194;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -28,6 +28,8 @@ $highlight-text: #b1ffe3;
       display: flex;
       flex-direction: column;
       min-height: 60px;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
    }
 
    &__input {
@@ -57,6 +59,8 @@ $highlight-text: #b1ffe3;
       height: -webkit-fill-available;
       height: stretch;
       padding: 1.75rem 1.25rem;
+      border-bottom-left-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
    }
 
    &__option {
