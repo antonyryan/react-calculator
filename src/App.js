@@ -61,7 +61,6 @@ const App = () => {
    const calculateTotal = () => {
       let previous = userInput.slice();
       let calculatedTotal = eval(`${expression.replace(",", "")} ${previous}`);
-      // calculatedTotal
 
       setTotal(calculatedTotal);
       setPreviousValue(calculatedTotal);
@@ -116,7 +115,19 @@ const App = () => {
    };
 
    const formatVal = (val) => {
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      if (val.includes(".")) {
+         let decBreak = val.indexOf(".");
+
+         for (let i = decBreak; i <= val.length - 1; i++) {
+            if (val[i] === ",") {
+               val = val.slice(0, i) + val.slice(i + 1);
+            }
+         }
+      }
+
+      return val;
    };
 
    return (

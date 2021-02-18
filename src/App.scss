@@ -1,29 +1,29 @@
-$primary-background: #4cab86;
-$secondary-background: #42b883b8;
-$primary: #ade5cc;
-$accent-one: #0c1025;
+$primary-text: #ade5cc;
+$primary-bg: #0c1025;
+$highlight-text: #b1ffe3;
 
 .calculator {
    min-height: 100vh;
-   background-color: $primary-background;
+   background-color: #4cab86;
    display: flex;
    justify-content: center;
    align-items: center;
 
    &__container {
-      background: $accent-one;
+      background: $primary-bg;
       width: 300px;
       height: 500px;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
          0 4px 6px -2px rgba(0, 0, 0, 0.05);
       display: flex;
       flex-direction: column;
+      border-radius: 0.5rem;
    }
 
    &__output {
-      background-color: $accent-one;
+      background-color: $primary-bg;
       padding: 1.25rem;
-      border-bottom: 4px solid #42b883;
+      border-bottom: 4px solid $highlight-text;
       text-align: right;
       display: flex;
       flex-direction: column;
@@ -31,7 +31,7 @@ $accent-one: #0c1025;
    }
 
    &__input {
-      color: #b1ffe3;
+      color: $highlight-text;
       font-size: 0.8rem;
       font-weight: 600;
       min-height: 12px;
@@ -39,7 +39,7 @@ $accent-one: #0c1025;
 
    &__total {
       font-weight: 500;
-      color: $primary;
+      color: $primary-text;
       font-size: 2.75rem;
       margin-top: 0.75rem;
 
@@ -53,7 +53,7 @@ $accent-one: #0c1025;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       grid-template-rows: repeat(5, minmax(0, 1fr));
       grid-gap: 0.75rem;
-      background-color: $accent-one;
+      background-color: $primary-bg;
       height: -webkit-fill-available;
       height: stretch;
       padding: 1.75rem 1.25rem;
@@ -75,8 +75,8 @@ $accent-one: #0c1025;
       height: 50px;
 
       &--operation {
-         background: $secondary-background;
-         color: $primary;
+         background: #42b883b8;
+         color: $primary-text;
       }
 
       &:hover {
