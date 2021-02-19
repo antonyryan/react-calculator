@@ -64,6 +64,7 @@ const App = () => {
    const calculateTotal = () => {
       let previous = userInput.slice();
       let calculatedTotal = eval(`${expression.replace(",", "")} ${previous}`);
+      calculatedTotal = Math.round(1000*calculatedTotal)/1000;
 
       setTotal(calculatedTotal);
       setPreviousValue(calculatedTotal);
@@ -77,7 +78,7 @@ const App = () => {
    const reverseSign = () => {
       if (!userInput.length) return;
 
-      let userInputValue = parseInt(userInput);
+      let userInputValue = parseFloat(userInput);
 
       if (evaluated) {
          if (Math.sign(total) === 1) {
@@ -118,19 +119,27 @@ const App = () => {
    };
 
    const formatVal = (val) => {
-      val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      let result; 
+      
+      if (val.length === 1 || val.toString().charAt(0) === '.') {
+         result = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+         return result;
+      }
+      
+      let roundedVal = Math.round(1000*eval(val))/1000;
+      result = roundedVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-      if (val.includes(".")) {
-         let decBreak = val.indexOf(".");
+      if (result.includes(".")) {
+         let decBreak = result.indexOf(".");
 
-         for (let i = decBreak; i <= val.length - 1; i++) {
-            if (val[i] === ",") {
-               val = val.slice(0, i) + val.slice(i + 1);
+         for (let i = decBreak; i <= result.length - 1; i++) {
+            if (result[i] === ",") {
+               result = result.slice(0, i) + result.slice(i + 1);
             }
          }
       }
 
-      return val;
+      return result;
    };
 
    return (
