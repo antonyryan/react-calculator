@@ -1,23 +1,17 @@
 import React from "react";
+import { formatVal } from "../helpers/formatVal";
 
-const Display = ({ expression, userInput, total, formatVal, evaluated }) => (
-   <div className="calculator__output">
-      <span className="calculator__input">{expression}</span>
-      <span
-         className={`calculator__total ${
-            userInput.length >= 10 ||
-            (evaluated && total.toString().length >= 10)
-               ? "calculator__total--shrink"
-               : ""
-         }`}
-      >
-         {expression || userInput
-            ? !userInput
-               ? 0
-               : formatVal(userInput)
-            : formatVal(total)}
-      </span>
-   </div>
-);
+const Display = ({ expression, userInput, total, evaluated }) => {
+   return (
+      <section className="calculator__output">
+         <span className="calculator__input">{expression}</span>
+         <span className="calculator__total">
+            {!userInput && evaluated && formatVal(total)}
+            {!userInput && !evaluated && 0}
+            {userInput && !evaluated && formatVal(userInput)}
+         </span>
+      </section>
+   );
+};
 
 export default Display;
