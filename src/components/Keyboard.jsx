@@ -18,34 +18,45 @@ const Keyboard = ({
    } = actions;
 
    const verifyInput = (e) => {
-      if (!userInput.length && e.target.value === "0") return;
+      let success = true;
+      if (!userInput.length && e.target.value === "0") {
+         success = false;
+      }
+
+      return success;
    };
 
    const handleAppendPrevious = (e) => {
-      verifyInput(e);
-      dispatch({
-         type: appendPrevious,
-         payload: e.target.value,
-      });
+      if (verifyInput(e)) {
+         dispatch({
+            type: appendPrevious,
+            payload: e.target.value,
+         });
+      }
+      return;
    };
 
    const handleConvertToDec = (e) => {
-      verifyInput(e);
-      dispatch({
-         type: setDecimal,
-         payload: e.target.value,
-      });
+      if (verifyInput(e)) {
+         dispatch({
+            type: setDecimal,
+            payload: e.target.value,
+         });
+      }
+      return;
    };
 
    const handleReverseSign = (e) => {
-      verifyInput(e);
-      dispatch({
-         type: setReversal,
-      });
+      if (verifyInput(e)) {
+         dispatch({
+            type: setReversal,
+         });
+      }
+      return;
    };
 
    return (
-      <div className="calculator__options">
+      <section className="calculator__options">
          <button
             className="calculator__option calculator__option--operation"
             onClick={() => dispatch({ type: clearTotal })}
@@ -55,12 +66,14 @@ const Keyboard = ({
          <button
             className="calculator__option calculator__option--operation"
             onClick={(e) => handleReverseSign(e)}
+            disabled={userInput === "." || !userInput}
          >
             ±
          </button>
          <button
             className="calculator__option calculator__option--operation"
             onClick={(e) => handleConvertToDec(e)}
+            disabled={userInput === "." || !userInput}
          >
             %
          </button>
@@ -205,7 +218,7 @@ const Keyboard = ({
          >
             =
          </button>
-      </div>
+      </section>
    );
 };
 

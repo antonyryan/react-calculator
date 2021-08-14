@@ -87,5 +87,12 @@ $highlight-text: #b1ffe3;
          background: #42b883ed;
          color: #c2ffe9;
       }
+
+      &[disabled] {
+         background-color: $primary-bg;
+         color: #7d7d7da1;
+         cursor: not-allowed;
+         transition: background-color 0.3s ease;
+      }
    }
 }
