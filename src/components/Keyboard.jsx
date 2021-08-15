@@ -6,6 +6,8 @@ const Keyboard = ({
    disabled,
    evaluated,
    operantSelected,
+   previousValue,
+   total,
    userInput,
 }) => {
    const {
@@ -17,42 +19,34 @@ const Keyboard = ({
       setTotal,
    } = actions;
 
-   const verifyInput = (e) => {
-      let success = true;
-      if (!userInput.length && e.target.value === "0") {
-         success = false;
-      }
-
-      return success;
-   };
+   const verifyInput =
+      (total === 0 && !evaluated && !userInput) ||
+      userInput === "." ||
+      operantSelected;
 
    const handleAppendPrevious = (e) => {
-      if (verifyInput(e)) {
-         dispatch({
-            type: appendPrevious,
-            payload: e.target.value,
-         });
+      /* Validation to ensure that user cannot make consecutive zero selections.  */
+      if (!userInput.length && e.target.value === "0" && !operantSelected) {
+         return;
       }
-      return;
+
+      dispatch({
+         type: appendPrevious,
+         payload: e.target.value,
+      });
    };
 
    const handleConvertToDec = (e) => {
-      if (verifyInput(e)) {
-         dispatch({
-            type: setDecimal,
-            payload: e.target.value,
-         });
-      }
-      return;
+      dispatch({
+         type: setDecimal,
+         payload: e.target.value,
+      });
    };
 
    const handleReverseSign = (e) => {
-      if (verifyInput(e)) {
-         dispatch({
-            type: setReversal,
-         });
-      }
-      return;
+      dispatch({
+         type: setReversal,
+      });
    };
 
    return (
@@ -66,14 +60,14 @@ const Keyboard = ({
          <button
             className="calculator__option calculator__option--operation"
             onClick={(e) => handleReverseSign(e)}
-            disabled={userInput === "." || !userInput}
+            disabled={verifyInput}
          >
             ±
          </button>
          <button
             className="calculator__option calculator__option--operation"
             onClick={(e) => handleConvertToDec(e)}
-            disabled={userInput === "." || !userInput}
+            disabled={verifyInput}
          >
             %
          </button>
@@ -83,7 +77,11 @@ const Keyboard = ({
             onClick={(e) =>
                dispatch({ type: setOperant, payload: e.target.value })
             }
-            disabled={operantSelected || (!userInput.length && !evaluated)}
+            disabled={
+               operantSelected ||
+               (!userInput.length && !evaluated) ||
+               userInput === "."
+            }
          >
             ÷
          </button>
@@ -117,7 +115,11 @@ const Keyboard = ({
             onClick={(e) =>
                dispatch({ type: setOperant, payload: e.target.value })
             }
-            disabled={operantSelected || (!userInput.length && !evaluated)}
+            disabled={
+               operantSelected ||
+               (!userInput.length && !evaluated) ||
+               userInput === "."
+            }
          >
             ×
          </button>
@@ -151,7 +153,11 @@ const Keyboard = ({
             onClick={(e) =>
                dispatch({ type: setOperant, payload: e.target.value })
             }
-            disabled={operantSelected || (!userInput.length && !evaluated)}
+            disabled={
+               operantSelected ||
+               (!userInput.length && !evaluated) ||
+               userInput === "."
+            }
          >
             -
          </button>
@@ -185,7 +191,11 @@ const Keyboard = ({
             onClick={(e) =>
                dispatch({ type: setOperant, payload: e.target.value })
             }
-            disabled={operantSelected || (!userInput.length && !evaluated)}
+            disabled={
+               operantSelected ||
+               (!userInput.length && !evaluated) ||
+               userInput === "."
+            }
          >
             +
          </button>
@@ -214,7 +224,12 @@ const Keyboard = ({
          <button
             className="calculator__option calculator__option--operation"
             onClick={() => dispatch({ type: setTotal })}
-            disabled={!userInput.length}
+            disabled={
+               !userInput.length ||
+               (!previousValue && operantSelected) ||
+               !previousValue ||
+               (userInput.length === 1 && userInput.charAt(0) === ".")
+            }
          >
             =
          </button>

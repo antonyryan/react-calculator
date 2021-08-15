@@ -26,7 +26,14 @@ export const reducer = (state, action) => {
       case actions.appendPrevious:
          const { userInput } = state;
 
-         if (userInput.length === 18) {
+         if (userInput.charAt(0) === "0" && +action.payload >= 1) {
+            return {
+               ...state,
+               userInput: action.payload,
+            };
+         }
+
+         if (userInput.length === 7) {
             return {
                ...state,
                disabled: true,
