@@ -126,9 +126,10 @@ export const reducer = (state, action) => {
             operantSelected: true,
             disabled: false,
          };
-   }
 
-   return {
-      ...state,
-   };
+      default:
+         return {
+            ...state,
+         };
+   }
 };
